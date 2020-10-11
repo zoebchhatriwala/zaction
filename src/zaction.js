@@ -22,22 +22,10 @@
             // Verify
             if (typeof hookedEvent != "undefined") {
                 // Find event
-                let eventTarget = event.target;
+                let eventTarget = event.target || event.srcElement;
 
-                // if eventTarget doesn't has z-event attribute
-                if (eventTarget.hasAttribute("z-event")) {
-                    // Verify event mentioned in z-event
-                    let eventName = eventTarget.getAttribute("z-event");
-                    // Check
-                    if (eventName.indexOf(event.type) == -1) {
-                        // Mark eventTarget to be null
-                        eventTarget = null;
-                    }
-                    // End
-                } else {
-                    // Find closest root if present
-                    eventTarget = eventTarget.closest(`[z-event*="${event.type}"]`);
-                }
+                // Find the closest z-event to trigger action
+                eventTarget = eventTarget.closest(`[z-event*="${event.type}"]`);
 
                 // Get action
                 if (eventTarget && eventTarget.hasAttribute("z-action")) {
