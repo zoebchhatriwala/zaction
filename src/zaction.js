@@ -46,6 +46,18 @@
 
         // adds action for certain element
         setActionHook(eventName, actionName, handler) {
+
+            // if actionName is an array
+            if (typeof actionName == "object" && typeof actionName.length != "undefined") {
+                // Loop every actionName and assign event handler
+                for (let index = 0; index < actionName.length; index++) {
+                    // Set action hook
+                    this.setActionHook(eventName, actionName[index], handler);
+                }
+
+                return;
+            }
+
             // If event undefined
             if (typeof this.hooks[eventName] == "undefined") {
                 this.setEvent(eventName, actionName);
@@ -62,7 +74,7 @@
         }
 
         version() {
-            return "1.0.1";
+            return "1.0.2";
         }
     }
     // End
